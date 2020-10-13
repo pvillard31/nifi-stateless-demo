@@ -1,0 +1,659 @@
+{
+  "header" : {
+    "dataModelVersion" : "3"
+  },
+  "content" : {
+    "flowSnapshot" : {
+      "externalControllerServices" : { },
+      "flowContents" : {
+        "comments" : "",
+        "componentType" : "PROCESS_GROUP",
+        "connections" : [ {
+          "backPressureDataSizeThreshold" : "1 GB",
+          "backPressureObjectThreshold" : 10000,
+          "bends" : [ {
+            "x" : 1016.0,
+            "y" : 248.0
+          } ],
+          "componentType" : "CONNECTION",
+          "destination" : {
+            "comments" : "",
+            "groupId" : "d31a3351-1117-3cb5-b3f4-4ab22e59ab74",
+            "id" : "8b7ae654-b62b-39f6-b0c2-d88aa77a3030",
+            "name" : "PutDatabaseRecord",
+            "type" : "PROCESSOR"
+          },
+          "flowFileExpiration" : "0 sec",
+          "groupIdentifier" : "d31a3351-1117-3cb5-b3f4-4ab22e59ab74",
+          "identifier" : "7975e576-7fcc-3f55-9f10-46d648c8737a",
+          "labelIndex" : 0,
+          "loadBalanceCompression" : "DO_NOT_COMPRESS",
+          "loadBalanceStrategy" : "DO_NOT_LOAD_BALANCE",
+          "name" : "",
+          "partitioningAttribute" : "",
+          "prioritizers" : [ ],
+          "selectedRelationships" : [ "success" ],
+          "source" : {
+            "comments" : "",
+            "groupId" : "d31a3351-1117-3cb5-b3f4-4ab22e59ab74",
+            "id" : "9a646250-a7fc-3e8a-a7e9-eb035a490806",
+            "name" : "ConsumeKafka_2_6",
+            "type" : "PROCESSOR"
+          },
+          "zIndex" : 0
+        } ],
+        "controllerServices" : [ {
+          "bundle" : {
+            "artifact" : "nifi-record-serialization-services-nar",
+            "group" : "org.apache.nifi",
+            "version" : "1.12.1"
+          },
+          "comments" : "",
+          "componentType" : "CONTROLLER_SERVICE",
+          "controllerServiceApis" : [ {
+            "bundle" : {
+              "artifact" : "nifi-standard-services-api-nar",
+              "group" : "org.apache.nifi",
+              "version" : "1.12.1"
+            },
+            "type" : "org.apache.nifi.serialization.RecordReaderFactory"
+          } ],
+          "groupIdentifier" : "d31a3351-1117-3cb5-b3f4-4ab22e59ab74",
+          "identifier" : "e0fb0df5-da28-3a19-9f86-7d6a23411b2a",
+          "name" : "Avro Reader",
+          "properties" : {
+            "schema-name" : "${schema.name}",
+            "cache-size" : "1000",
+            "schema-access-strategy" : "embedded-avro-schema",
+            "schema-text" : "${avro.schema}"
+          },
+          "propertyDescriptors" : {
+            "schema-branch" : {
+              "displayName" : "Schema Branch",
+              "identifiesControllerService" : false,
+              "name" : "schema-branch",
+              "sensitive" : false
+            },
+            "schema-name" : {
+              "displayName" : "Schema Name",
+              "identifiesControllerService" : false,
+              "name" : "schema-name",
+              "sensitive" : false
+            },
+            "cache-size" : {
+              "displayName" : "Cache Size",
+              "identifiesControllerService" : false,
+              "name" : "cache-size",
+              "sensitive" : false
+            },
+            "schema-registry" : {
+              "displayName" : "Schema Registry",
+              "identifiesControllerService" : true,
+              "name" : "schema-registry",
+              "sensitive" : false
+            },
+            "schema-access-strategy" : {
+              "displayName" : "Schema Access Strategy",
+              "identifiesControllerService" : false,
+              "name" : "schema-access-strategy",
+              "sensitive" : false
+            },
+            "schema-version" : {
+              "displayName" : "Schema Version",
+              "identifiesControllerService" : false,
+              "name" : "schema-version",
+              "sensitive" : false
+            },
+            "schema-text" : {
+              "displayName" : "Schema Text",
+              "identifiesControllerService" : false,
+              "name" : "schema-text",
+              "sensitive" : false
+            }
+          },
+          "type" : "org.apache.nifi.avro.AvroReader"
+        }, {
+          "bundle" : {
+            "artifact" : "nifi-dbcp-service-nar",
+            "group" : "org.apache.nifi",
+            "version" : "1.12.1"
+          },
+          "comments" : "",
+          "componentType" : "CONTROLLER_SERVICE",
+          "controllerServiceApis" : [ {
+            "bundle" : {
+              "artifact" : "nifi-standard-services-api-nar",
+              "group" : "org.apache.nifi",
+              "version" : "1.12.1"
+            },
+            "type" : "org.apache.nifi.dbcp.DBCPService"
+          } ],
+          "groupIdentifier" : "d31a3351-1117-3cb5-b3f4-4ab22e59ab74",
+          "identifier" : "de8457ef-8dd6-357c-a0ad-de7bbb782b29",
+          "name" : "DBCP Connection Pool",
+          "properties" : {
+            "dbcp-min-idle-conns" : "0",
+            "Max Wait Time" : "500 millis",
+            "Database Driver Class Name" : "org.postgresql.Driver",
+            "dbcp-min-evictable-idle-time" : "30 mins",
+            "Max Total Connections" : "8",
+            "dbcp-max-conn-lifetime" : "-1",
+            "Database Connection URL" : "#{DB_URL}",
+            "dbcp-time-between-eviction-runs" : "-1",
+            "Database User" : "#{DB_USER}",
+            "dbcp-soft-min-evictable-idle-time" : "-1",
+            "database-driver-locations" : "#{DB_DRIVER}",
+            "dbcp-max-idle-conns" : "8",
+            "Password" : "#{DB_PASSWORD}"
+          },
+          "propertyDescriptors" : {
+            "kerberos-password" : {
+              "displayName" : "Kerberos Password",
+              "identifiesControllerService" : false,
+              "name" : "kerberos-password",
+              "sensitive" : true
+            },
+            "dbcp-min-idle-conns" : {
+              "displayName" : "Minimum Idle Connections",
+              "identifiesControllerService" : false,
+              "name" : "dbcp-min-idle-conns",
+              "sensitive" : false
+            },
+            "Max Wait Time" : {
+              "displayName" : "Max Wait Time",
+              "identifiesControllerService" : false,
+              "name" : "Max Wait Time",
+              "sensitive" : false
+            },
+            "Database Driver Class Name" : {
+              "displayName" : "Database Driver Class Name",
+              "identifiesControllerService" : false,
+              "name" : "Database Driver Class Name",
+              "sensitive" : false
+            },
+            "dbcp-min-evictable-idle-time" : {
+              "displayName" : "Minimum Evictable Idle Time",
+              "identifiesControllerService" : false,
+              "name" : "dbcp-min-evictable-idle-time",
+              "sensitive" : false
+            },
+            "kerberos-principal" : {
+              "displayName" : "Kerberos Principal",
+              "identifiesControllerService" : false,
+              "name" : "kerberos-principal",
+              "sensitive" : false
+            },
+            "Max Total Connections" : {
+              "displayName" : "Max Total Connections",
+              "identifiesControllerService" : false,
+              "name" : "Max Total Connections",
+              "sensitive" : false
+            },
+            "kerberos-credentials-service" : {
+              "displayName" : "Kerberos Credentials Service",
+              "identifiesControllerService" : true,
+              "name" : "kerberos-credentials-service",
+              "sensitive" : false
+            },
+            "dbcp-max-conn-lifetime" : {
+              "displayName" : "Max Connection Lifetime",
+              "identifiesControllerService" : false,
+              "name" : "dbcp-max-conn-lifetime",
+              "sensitive" : false
+            },
+            "Validation-query" : {
+              "displayName" : "Validation query",
+              "identifiesControllerService" : false,
+              "name" : "Validation-query",
+              "sensitive" : false
+            },
+            "Database Connection URL" : {
+              "displayName" : "Database Connection URL",
+              "identifiesControllerService" : false,
+              "name" : "Database Connection URL",
+              "sensitive" : false
+            },
+            "dbcp-time-between-eviction-runs" : {
+              "displayName" : "Time Between Eviction Runs",
+              "identifiesControllerService" : false,
+              "name" : "dbcp-time-between-eviction-runs",
+              "sensitive" : false
+            },
+            "Database User" : {
+              "displayName" : "Database User",
+              "identifiesControllerService" : false,
+              "name" : "Database User",
+              "sensitive" : false
+            },
+            "dbcp-soft-min-evictable-idle-time" : {
+              "displayName" : "Soft Minimum Evictable Idle Time",
+              "identifiesControllerService" : false,
+              "name" : "dbcp-soft-min-evictable-idle-time",
+              "sensitive" : false
+            },
+            "database-driver-locations" : {
+              "displayName" : "Database Driver Location(s)",
+              "identifiesControllerService" : false,
+              "name" : "database-driver-locations",
+              "sensitive" : false
+            },
+            "dbcp-max-idle-conns" : {
+              "displayName" : "Max Idle Connections",
+              "identifiesControllerService" : false,
+              "name" : "dbcp-max-idle-conns",
+              "sensitive" : false
+            },
+            "Password" : {
+              "displayName" : "Password",
+              "identifiesControllerService" : false,
+              "name" : "Password",
+              "sensitive" : true
+            }
+          },
+          "type" : "org.apache.nifi.dbcp.DBCPConnectionPool"
+        } ],
+        "flowFileConcurrency" : "UNBOUNDED",
+        "flowFileOutboundPolicy" : "STREAM_WHEN_AVAILABLE",
+        "funnels" : [ ],
+        "identifier" : "d31a3351-1117-3cb5-b3f4-4ab22e59ab74",
+        "inputPorts" : [ ],
+        "labels" : [ ],
+        "name" : "ToRunWithNiFiStateless",
+        "outputPorts" : [ ],
+        "parameterContextName" : "DemoParameterContext",
+        "position" : {
+          "x" : 664.0,
+          "y" : 216.0
+        },
+        "processGroups" : [ ],
+        "processors" : [ {
+          "autoTerminatedRelationships" : [ "success", "failure", "retry" ],
+          "bulletinLevel" : "WARN",
+          "bundle" : {
+            "artifact" : "nifi-standard-nar",
+            "group" : "org.apache.nifi",
+            "version" : "1.12.1"
+          },
+          "comments" : "",
+          "componentType" : "PROCESSOR",
+          "concurrentlySchedulableTaskCount" : 1,
+          "executionNode" : "ALL",
+          "groupIdentifier" : "d31a3351-1117-3cb5-b3f4-4ab22e59ab74",
+          "identifier" : "8b7ae654-b62b-39f6-b0c2-d88aa77a3030",
+          "name" : "PutDatabaseRecord",
+          "penaltyDuration" : "30 sec",
+          "position" : {
+            "x" : 1040.0,
+            "y" : 296.0
+          },
+          "properties" : {
+            "put-db-record-allow-multiple-statements" : "false",
+            "table-schema-cache-size" : "100",
+            "put-db-record-quoted-table-identifiers" : "false",
+            "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
+            "put-db-record-translate-field-names" : "true",
+            "put-db-record-dcbp-service" : "de8457ef-8dd6-357c-a0ad-de7bbb782b29",
+            "put-db-record-query-timeout" : "0 seconds",
+            "rollback-on-failure" : "false",
+            "put-db-record-statement-type" : "INSERT",
+            "db-type" : "PostgreSQL",
+            "put-db-record-quoted-identifiers" : "false",
+            "put-db-record-table-name" : "#{DB_TABLE}",
+            "put-db-record-unmatched-field-behavior" : "Ignore Unmatched Fields",
+            "put-db-record-max-batch-size" : "0",
+            "put-db-record-record-reader" : "e0fb0df5-da28-3a19-9f86-7d6a23411b2a"
+          },
+          "propertyDescriptors" : {
+            "put-db-record-allow-multiple-statements" : {
+              "displayName" : "Allow Multiple SQL Statements",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-allow-multiple-statements",
+              "sensitive" : false
+            },
+            "table-schema-cache-size" : {
+              "displayName" : "Table Schema Cache Size",
+              "identifiesControllerService" : false,
+              "name" : "table-schema-cache-size",
+              "sensitive" : false
+            },
+            "put-db-record-schema-name" : {
+              "displayName" : "Schema Name",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-schema-name",
+              "sensitive" : false
+            },
+            "put-db-record-field-containing-sql" : {
+              "displayName" : "Field Containing SQL",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-field-containing-sql",
+              "sensitive" : false
+            },
+            "put-db-record-quoted-table-identifiers" : {
+              "displayName" : "Quote Table Identifiers",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-quoted-table-identifiers",
+              "sensitive" : false
+            },
+            "put-db-record-unmatched-column-behavior" : {
+              "displayName" : "Unmatched Column Behavior",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-unmatched-column-behavior",
+              "sensitive" : false
+            },
+            "put-db-record-catalog-name" : {
+              "displayName" : "Catalog Name",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-catalog-name",
+              "sensitive" : false
+            },
+            "put-db-record-translate-field-names" : {
+              "displayName" : "Translate Field Names",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-translate-field-names",
+              "sensitive" : false
+            },
+            "put-db-record-dcbp-service" : {
+              "displayName" : "Database Connection Pooling Service",
+              "identifiesControllerService" : true,
+              "name" : "put-db-record-dcbp-service",
+              "sensitive" : false
+            },
+            "put-db-record-query-timeout" : {
+              "displayName" : "Max Wait Time",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-query-timeout",
+              "sensitive" : false
+            },
+            "rollback-on-failure" : {
+              "displayName" : "Rollback On Failure",
+              "identifiesControllerService" : false,
+              "name" : "rollback-on-failure",
+              "sensitive" : false
+            },
+            "put-db-record-statement-type" : {
+              "displayName" : "Statement Type",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-statement-type",
+              "sensitive" : false
+            },
+            "db-type" : {
+              "displayName" : "Database Type",
+              "identifiesControllerService" : false,
+              "name" : "db-type",
+              "sensitive" : false
+            },
+            "put-db-record-update-keys" : {
+              "displayName" : "Update Keys",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-update-keys",
+              "sensitive" : false
+            },
+            "put-db-record-quoted-identifiers" : {
+              "displayName" : "Quote Column Identifiers",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-quoted-identifiers",
+              "sensitive" : false
+            },
+            "put-db-record-table-name" : {
+              "displayName" : "Table Name",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-table-name",
+              "sensitive" : false
+            },
+            "put-db-record-unmatched-field-behavior" : {
+              "displayName" : "Unmatched Field Behavior",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-unmatched-field-behavior",
+              "sensitive" : false
+            },
+            "put-db-record-max-batch-size" : {
+              "displayName" : "Maximum Batch Size",
+              "identifiesControllerService" : false,
+              "name" : "put-db-record-max-batch-size",
+              "sensitive" : false
+            },
+            "put-db-record-record-reader" : {
+              "displayName" : "Record Reader",
+              "identifiesControllerService" : true,
+              "name" : "put-db-record-record-reader",
+              "sensitive" : false
+            }
+          },
+          "runDurationMillis" : 0,
+          "scheduledState" : "ENABLED",
+          "schedulingPeriod" : "0 sec",
+          "schedulingStrategy" : "TIMER_DRIVEN",
+          "style" : { },
+          "type" : "org.apache.nifi.processors.standard.PutDatabaseRecord",
+          "yieldDuration" : "1 sec"
+        }, {
+          "autoTerminatedRelationships" : [ ],
+          "bulletinLevel" : "WARN",
+          "bundle" : {
+            "artifact" : "nifi-kafka-2-6-nar",
+            "group" : "org.apache.nifi",
+            "version" : "1.12.1"
+          },
+          "comments" : "",
+          "componentType" : "PROCESSOR",
+          "concurrentlySchedulableTaskCount" : 1,
+          "executionNode" : "ALL",
+          "groupIdentifier" : "d31a3351-1117-3cb5-b3f4-4ab22e59ab74",
+          "identifier" : "9a646250-a7fc-3e8a-a7e9-eb035a490806",
+          "name" : "ConsumeKafka_2_6",
+          "penaltyDuration" : "30 sec",
+          "position" : {
+            "x" : 664.0,
+            "y" : 296.0
+          },
+          "properties" : {
+            "max.poll.records" : "10000",
+            "group.id" : "test",
+            "bootstrap.servers" : "#{KAFKA_BROKER}",
+            "topic_type" : "names",
+            "security.protocol" : "PLAINTEXT",
+            "max-uncommit-offset-wait" : "1 secs",
+            "sasl.mechanism" : "GSSAPI",
+            "sasl.token.auth" : "false",
+            "honor-transactions" : "true",
+            "Communications Timeout" : "60 secs",
+            "topic" : "#{KAFKA_TOPIC}",
+            "message-header-encoding" : "UTF-8",
+            "key-attribute-encoding" : "utf-8",
+            "auto.offset.reset" : "latest"
+          },
+          "propertyDescriptors" : {
+            "header-name-regex" : {
+              "displayName" : "Headers to Add as Attributes (Regex)",
+              "identifiesControllerService" : false,
+              "name" : "header-name-regex",
+              "sensitive" : false
+            },
+            "sasl.username" : {
+              "displayName" : "Username",
+              "identifiesControllerService" : false,
+              "name" : "sasl.username",
+              "sensitive" : false
+            },
+            "max.poll.records" : {
+              "displayName" : "Max Poll Records",
+              "identifiesControllerService" : false,
+              "name" : "max.poll.records",
+              "sensitive" : false
+            },
+            "group.id" : {
+              "displayName" : "Group ID",
+              "identifiesControllerService" : false,
+              "name" : "group.id",
+              "sensitive" : false
+            },
+            "bootstrap.servers" : {
+              "displayName" : "Kafka Brokers",
+              "identifiesControllerService" : false,
+              "name" : "bootstrap.servers",
+              "sensitive" : false
+            },
+            "topic_type" : {
+              "displayName" : "Topic Name Format",
+              "identifiesControllerService" : false,
+              "name" : "topic_type",
+              "sensitive" : false
+            },
+            "sasl.kerberos.principal" : {
+              "displayName" : "Kerberos Principal",
+              "identifiesControllerService" : false,
+              "name" : "sasl.kerberos.principal",
+              "sensitive" : false
+            },
+            "sasl.kerberos.service.name" : {
+              "displayName" : "Kerberos Service Name",
+              "identifiesControllerService" : false,
+              "name" : "sasl.kerberos.service.name",
+              "sensitive" : false
+            },
+            "security.protocol" : {
+              "displayName" : "Security Protocol",
+              "identifiesControllerService" : false,
+              "name" : "security.protocol",
+              "sensitive" : false
+            },
+            "kerberos-credentials-service" : {
+              "displayName" : "Kerberos Credentials Service",
+              "identifiesControllerService" : true,
+              "name" : "kerberos-credentials-service",
+              "sensitive" : false
+            },
+            "ssl.context.service" : {
+              "displayName" : "SSL Context Service",
+              "identifiesControllerService" : true,
+              "name" : "ssl.context.service",
+              "sensitive" : false
+            },
+            "max-uncommit-offset-wait" : {
+              "displayName" : "Max Uncommitted Time",
+              "identifiesControllerService" : false,
+              "name" : "max-uncommit-offset-wait",
+              "sensitive" : false
+            },
+            "sasl.mechanism" : {
+              "displayName" : "SASL Mechanism",
+              "identifiesControllerService" : false,
+              "name" : "sasl.mechanism",
+              "sensitive" : false
+            },
+            "sasl.token.auth" : {
+              "displayName" : "Token Auth",
+              "identifiesControllerService" : false,
+              "name" : "sasl.token.auth",
+              "sensitive" : false
+            },
+            "sasl.kerberos.keytab" : {
+              "displayName" : "Kerberos Keytab",
+              "identifiesControllerService" : false,
+              "name" : "sasl.kerberos.keytab",
+              "sensitive" : false
+            },
+            "honor-transactions" : {
+              "displayName" : "Honor Transactions",
+              "identifiesControllerService" : false,
+              "name" : "honor-transactions",
+              "sensitive" : false
+            },
+            "Communications Timeout" : {
+              "displayName" : "Communications Timeout",
+              "identifiesControllerService" : false,
+              "name" : "Communications Timeout",
+              "sensitive" : false
+            },
+            "topic" : {
+              "displayName" : "Topic Name(s)",
+              "identifiesControllerService" : false,
+              "name" : "topic",
+              "sensitive" : false
+            },
+            "message-header-encoding" : {
+              "displayName" : "Message Header Encoding",
+              "identifiesControllerService" : false,
+              "name" : "message-header-encoding",
+              "sensitive" : false
+            },
+            "sasl.password" : {
+              "displayName" : "Password",
+              "identifiesControllerService" : false,
+              "name" : "sasl.password",
+              "sensitive" : true
+            },
+            "message-demarcator" : {
+              "displayName" : "Message Demarcator",
+              "identifiesControllerService" : false,
+              "name" : "message-demarcator",
+              "sensitive" : false
+            },
+            "key-attribute-encoding" : {
+              "displayName" : "Key Attribute Encoding",
+              "identifiesControllerService" : false,
+              "name" : "key-attribute-encoding",
+              "sensitive" : false
+            },
+            "auto.offset.reset" : {
+              "displayName" : "Offset Reset",
+              "identifiesControllerService" : false,
+              "name" : "auto.offset.reset",
+              "sensitive" : false
+            }
+          },
+          "runDurationMillis" : 0,
+          "scheduledState" : "ENABLED",
+          "schedulingPeriod" : "0 sec",
+          "schedulingStrategy" : "TIMER_DRIVEN",
+          "style" : { },
+          "type" : "org.apache.nifi.processors.kafka.pubsub.ConsumeKafka_2_6",
+          "yieldDuration" : "1 sec"
+        } ],
+        "remoteProcessGroups" : [ ],
+        "variables" : { }
+      },
+      "flowEncodingVersion" : "1.0",
+      "parameterContexts" : {
+        "DemoParameterContext" : {
+          "name" : "DemoParameterContext",
+          "parameters" : [ {
+            "description" : "",
+            "name" : "DB_USER",
+            "sensitive" : false,
+            "value" : "user"
+          }, {
+            "description" : "",
+            "name" : "KAFKA_BROKER",
+            "sensitive" : false,
+            "value" : "kafka:9092"
+          }, {
+            "description" : "",
+            "name" : "DB_DRIVER",
+            "sensitive" : false,
+            "value" : "/tmp/postgresql-42.2.16.jar"
+          }, {
+            "description" : "",
+            "name" : "DB_URL",
+            "sensitive" : false,
+            "value" : "jdbc:postgresql://postgres/database"
+          }, {
+            "description" : "",
+            "name" : "DB_PASSWORD",
+            "sensitive" : true
+          }, {
+            "description" : "",
+            "name" : "DB_TABLE",
+            "sensitive" : false,
+            "value" : "demotable"
+          }, {
+            "description" : "",
+            "name" : "KAFKA_TOPIC",
+            "sensitive" : false,
+            "value" : "test"
+          } ]
+        }
+      }
+    }
+  }
+}

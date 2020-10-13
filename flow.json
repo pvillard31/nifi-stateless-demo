@@ -1,0 +1,14 @@
+{
+  "registryUrl": "http://nifi-registry:18080",
+  "bucketId": "32b9f752-73be-4f9d-854d-4ea0a1158622",
+  "flowId": "8d552b62-5da2-46ef-aba3-f7b8ee0f874d",
+  "parameters": {
+    "DB_URL": "jdbc:postgresql://postgres/database",
+    "DB_PASSWORD": { "sensitive": "true", "value": "password" },
+    "DB_USER": "user",
+    "DB_DRIVER": "/tmp/postgresql-42.2.16.jar",
+    "DB_TABLE": "demotable",
+    "KAFKA_BROKER": "kafka:9092",
+    "KAFKA_TOPIC": "test"
+  }
+}
